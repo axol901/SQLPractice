@@ -2,23 +2,28 @@ import argparse
 import os
 import pyodbc
 
+# initialize connection and cursor
 serverName = "localhost\SQLEXPRESS"
 dbName = "Practice"
 
 cnxnStr = f'Driver={{ODBC Driver 17 for SQL Server}};Server={serverName};Database={dbName};Trusted_Connection=Yes;'
 
-print(f"cnxnStr: {cnxnStr}")
-
 cnxn = pyodbc.connect(cnxnStr)
 
 cursor = cnxn.cursor()
-cursor.execute('SELECT * FROM Login')
 
-for row in cursor:
-    print('row = %r' % (row,))
+# prompt user for input
+usernameInput = input("Enter username: ")
 
-print("Yep, that sure is some text")
+passwordInput = input("Enter password: ")
 
-inputVal = input("Enter something: ")
+# attempt to find a login set that corresponds to both username and password provided
+cursor.execute(f"SELECT * FROM Login WHERE Username='{usernameInput}' AND Password='{passwordInput}'")
 
-print(f"You entered: {inputVal}")
+loginRow = cursor.fetchone()
+
+# check if login as successful
+if loginRow != None:
+    print(f"Login successful as user {loginRow[0]}")
+else:
+    print("Login failed. Please check that you entered the right credentials.")
