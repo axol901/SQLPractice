@@ -1,0 +1,7 @@
+Create a program that implements a simple login system with a username and password using SQL
+Usernames and passwords are stored in an SQL database
+Basic (console-based?) front end asks for a username
+  Check if username exists
+  If it does, prompt user for password
+  If password is correct, indicate success
+  If either fail, display message
